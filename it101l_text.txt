@@ -1,0 +1,28 @@
+ctions and recursion. 
+4. Demonstrate the ability to write C programs using pointers, strings structures and unions. 
+5. Design a solution to problems using the concepts of pointers and files handling. 
+CO - PO Mapping (Scale 1: Low, 2: Medium, 3: High) 
+CO - PO Mapping PO1 PO2 PO3 PO4 PO5 PO6 PO7 PO8 PO9 PO10 PO11 PO12 
+CO1 3 3 - - 2 - - 1 - - - 2 
+CO2 3 3 - 2 2 - - 1 - - - 2 
+CO3 3 3 - 2 2 - - 1 - - - 2 
+CO4 3 3 2 2 2 - - 1 - - - 2 
+CO5 3 3 2 2 2 - - 1 - - - 2 
+Unit 1 Introduction 09 hours 
+Introduction: Algorithm, Structure of C program, Writing the first C program, Compilation and execution process. Tokens: 
+Keywords, Identifier, Variables, Constants, Strings, Character set. 
+Operators: Arithmetic, Relational, Equality, logical, Unary, Conditional, Bitwise, Comma, Operator precedence and 
+associativity, type conversion, and type casting. 
+Best Practices in Code writing: Naming Conventions and Importance of Comments to enhance the readability of the program. 
+Unit 2 Decision Control and Looping Statements 09 hours 
+Decision Statements: Conditional Branching statements: if, if - else, if - else - if, switch case. 
+Iterative statements: while, do - while, for loop and Nested loops, Break and continue statements. 
+Unit 3 Functions & Recursion 09 hours 
+Functions & Recursion: Need for function, function declaration /Function prototype, Function Definition, Function calling. 
+Passing parameter to the Function: Call by value and call by reference, Scope: Block scope, function scope. 
+Storage Classes: Auto, register, Extern, static, Recursion. 
+Unit 4 Arrays and Pointers 09 hours 
+Arrays & Pointers: Fundamental of Array: One dimension Array, Declaration, Initialization. Operations on Array: Insertion, 
+deletion, traversing. Passing 1D array to functions, 2 - D array and its operations 
+Pointers: Introduction, Pointer declaration, and Pointer Arithmetic, Pointer and Arrays, Pointer to Pointer, Arrays of Pointe rs. 
+Course Book let B. Tech. I Year (Autonomous) 202 5 - 2 6

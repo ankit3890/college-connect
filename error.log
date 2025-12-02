@@ -1,0 +1,5 @@
+TypeError: pdf is not a function
+TypeError: pdf is not a function
+    at parsePdfAndExtract (C:\Users\ankit\Desktop\college-connect\manual_ingest.js:50:24)
+    at ingest (C:\Users\ankit\Desktop\college-connect\manual_ingest.js:103:31)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)

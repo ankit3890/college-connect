@@ -1,0 +1,175 @@
+// src/components/Navbar.tsx
+"use client";
+
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+interface CurrentUser {
+  name?: string;
+  studentId?: string;
+  role?: "student" | "admin" | "superadmin";
+}
+
+interface MaintenanceConfig {
+  maintenanceMode: boolean;
+  maintenanceMessage: string;
+}
+
+export default function Navbar() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [user, setUser] = useState<CurrentUser | null>(null);
+  const [loadingUser, setLoadingUser] = useState(true);
+
+  const [maintenance, setMaintenance] = useState<MaintenanceConfig>({
+    maintenanceMode: false,
+    maintenanceMessage: "",
+  });
+
+  async function fetchUser() {
+    try {
+      // Check the user API (uses JWT cookies from MongoDB)
+      const res = await fetch("/api/user/me");
+      console.log("🔍 Navbar fetchUser response:", res.status, res.ok);
+      if (!res.ok) {
+        setUser(null);
+        console.log("✅ User set to null (not logged in)");
+        return;
+      }
+      const data = await res.json();
+      const u = data.user ?? data;
+      setUser({
+        name: u.name || u.username || "",
+        studentId: u.studentId,
+        role: u.role,
+      });
+      console.log("✅ User set:", u);
+    } catch (err) {
+      console.error("❌ fetchUser error:", err);
+      setUser(null);
+    } finally {
+      setLoadingUser(false);
+      console.log("🏁 loadingUser set to false");
+    }
+  }
+
+  async function fetchMaintenance() {
+    try {
+      const res = await fetch("/api/system/config");
+      if (!res.ok) return;
+      const data = await res.json();
+      setMaintenance({
+        maintenanceMode: !!data.maintenanceMode,
+        maintenanceMessage: data.maintenanceMessage || "",
+      });
+    } catch {
+      // ignore banner errors
+    }
+  }
+
+  useEffect(() => {
+    fetchUser();
+    fetchMaintenance();
+  }, []);
+
+  async function handleLogout() {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+      });
+    } catch {
+      // ignore
+    } finally {
+      setUser(null);
+      router.push("/");
+    }
+  }
+
+  function linkClass(path: string) {
+    const active = pathname === path;
+    return (
+      "px-3 py-1.5 text-sm font-medium rounded-md " +
+      (active
+        ? "bg-slate-900 text-white"
+        : "text-slate-700 hover:bg-slate-100")
+    );
+  }
+
+  const isAdmin =
+    user?.role === "admin" || user?.role === "superadmin";
+
+  return (
+    <header className="border-b bg-white sticky top-0 z-40">
+      {/* Maintenance banner */}
+      {maintenance.maintenanceMode && (
+        <div className="w-full bg-amber-100 border-b border-amber-200 px-4 py-2">
+          <p className="text-xs sm:text-sm text-amber-900">
+            <span className="font-semibold mr-1">Maintenance:</span>
+            {maintenance.maintenanceMessage
+              ? maintenance.maintenanceMessage
+              : "The system is currently under maintenance. Some features may be limited."}
+          </p>
+        </div>
+      )}
+
+      <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2">
+          <Link href="/" className="flex items-center gap-2">
+            <span className="text-lg font-bold text-slate-900">
+              College<span className="text-blue-600">Connect</span>
+            </span>
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {/* Main nav links */}
+          {user && (
+            <>
+              <Link href="/dashboard" className={linkClass("/dashboard")}>
+                Dashboard
+              </Link>
+
+              <Link href="/profile" className={linkClass("/profile")}>
+                Profile
+              </Link>
+
+              {isAdmin && (
+                <>
+                  <Link href="/admin" className={linkClass("/admin")}>
+                    Admin
+                  </Link>
+                  <Link
+                    href="/admin/logs"
+                    className={linkClass("/admin/logs")}
+                  >
+                    Logs
+                  </Link>
+                  <Link
+                    href="/admin/settings"
+                    className={linkClass("/admin/settings")}
+                  >
+                    Settings
+                  </Link>
+                </>
+              )}
+            </>
+          )}
+
+          {/* Auth section */}
+          {!loadingUser && !user && (
+            <>
+              <Link href="/login" className={linkClass("/login")}>
+                Login
+              </Link>
+              <Link href="/register" className={linkClass("/register")}>
+                Register
+              </Link>
+            </>
+          )}
+        </div>
+      </nav>
+    </header>
+  );
+}
