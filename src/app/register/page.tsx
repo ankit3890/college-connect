@@ -57,7 +57,7 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen bg-slate-100 flex items-center justify-center px-4 py-12">
             <div className="w-full max-w-md">
-                <div className="bg-white rounded-2xl shadow-lg px-8 py-10">
+                <div className="bg-white rounded-2xl shadow-lg px-8 py-10 border-2 border-black">
                     {/* Icon */}
                     <div className="flex justify-center mb-6">
                         <div className="w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center">

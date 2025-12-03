@@ -362,7 +362,7 @@ export default function ProfilePage() {
                 )}
 
                 {/* TOP CARD: avatar + quick info */}
-                <section className="rounded-xl border-2 border-black bg-white px-4 py-4 shadow-sm hover:shadow-xl transition-all duration-200">
+                <section className="rounded-xl border-2 border-black bg-white px-4 py-4 shadow-lg">
                     <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
                         {/* avatar */}
                         <div className="flex items-center gap-3">
@@ -475,7 +475,7 @@ export default function ProfilePage() {
                 </section>
 
                 {/* DETAILS + EDITABLE FIELDS */}
-                <section className="rounded-xl border-2 border-black bg-white px-4 py-4 shadow-sm hover:shadow-xl transition-all duration-200">
+                <section className="rounded-xl border-2 border-black bg-white px-4 py-4 shadow-lg">
                     <h2 className="text-sm font-semibold text-slate-900 mb-3">
                         Account details
                     </h2>
@@ -646,7 +646,7 @@ export default function ProfilePage() {
                         </section>
 
                         {showReSyncForm && (
-                            <section className="rounded-xl border-2 border-black bg-white px-4 py-4 shadow-sm space-y-3 hover:shadow-xl transition-all duration-200">
+                            <section className="rounded-xl border-2 border-black bg-white px-4 py-4 shadow-lg space-y-3">
                                 <h2 className="text-sm font-semibold">Re-sync from CyberVidya</h2>
                                 <p className="text-xs text-slate-500">
                                     Enter your CyberVidya ID and password again to pull the latest
@@ -694,7 +694,7 @@ export default function ProfilePage() {
 
                 {/* First-time sync */}
                 {!user.hasSyncedFromCyberVidya && (
-                    <section className="rounded-xl border-2 border-black bg-white px-4 py-4 shadow-sm space-y-3 hover:shadow-xl transition-all duration-200">
+                    <section className="rounded-xl border-2 border-black bg-white px-4 py-4 shadow-lg space-y-3">
                         <h2 className="text-sm sm:text-lg font-semibold">
                             Sync from CyberVidya
                         </h2>

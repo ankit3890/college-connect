@@ -107,7 +107,7 @@ export default function ChangePasswordPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="space-y-4 text-sm bg-white p-4 rounded-xl shadow-sm border-2 border-black hover:shadow-xl transition-all duration-200"
+          className="space-y-4 text-sm bg-white p-4 rounded-xl shadow-lg border-2 border-black"
         >
           <div>
             <label className="block text-xs font-medium text-slate-600 mb-1">
