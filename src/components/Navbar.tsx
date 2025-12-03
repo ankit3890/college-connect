@@ -22,6 +22,7 @@ export default function Navbar() {
 
   const [user, setUser] = useState<CurrentUser | null>(null);
   const [loadingUser, setLoadingUser] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [maintenance, setMaintenance] = useState<MaintenanceConfig>({
     maintenanceMode: false,
@@ -30,7 +31,6 @@ export default function Navbar() {
 
   async function fetchUser() {
     try {
-      // Check the user API (uses JWT cookies from MongoDB)
       const res = await fetch("/api/user/me");
       console.log("🔍 Navbar fetchUser response:", res.status, res.ok);
       if (!res.ok) {
@@ -83,12 +83,21 @@ export default function Navbar() {
       // ignore
     } finally {
       setUser(null);
+      setMobileMenuOpen(false);
       router.push("/");
     }
   }
 
-  function linkClass(path: string) {
+  function linkClass(path: string, mobile = false) {
     const active = pathname === path;
+    if (mobile) {
+      return (
+        "block px-4 py-2 text-base font-medium rounded-md " +
+        (active
+          ? "bg-slate-900 text-white"
+          : "text-slate-700 hover:bg-slate-100")
+      );
+    }
     return (
       "px-3 py-1.5 text-sm font-medium rounded-md " +
       (active
@@ -114,61 +123,159 @@ export default function Navbar() {
         </div>
       )}
 
-      <nav className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <Link href="/" className="flex items-center gap-2">
-            <span className="text-lg font-bold text-slate-900">
-              College<span className="text-blue-600">Connect</span>
-            </span>
-          </Link>
-        </div>
+      <nav className="max-w-6xl mx-auto px-4 py-3">
+        <div className="flex items-center justify-between">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <Link href="/" className="flex items-center gap-2">
+              <span className="text-lg font-bold text-slate-900">
+                College<span className="text-blue-600">Connect</span>
+              </span>
+            </Link>
+          </div>
 
-        <div className="flex items-center gap-2">
-          {/* Main nav links */}
-          {user && (
-            <>
-              <Link href="/dashboard" className={linkClass("/dashboard")}>
-                Dashboard
-              </Link>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-2">
+            {user && (
+              <>
+                <Link href="/dashboard" className={linkClass("/dashboard")}>
+                  Dashboard
+                </Link>
 
-              <Link href="/profile" className={linkClass("/profile")}>
-                Profile
-              </Link>
+                <Link href="/profile" className={linkClass("/profile")}>
+                  Profile
+                </Link>
 
-              {isAdmin && (
-                <>
-                  <Link href="/admin" className={linkClass("/admin")}>
-                    Admin
-                  </Link>
-                  <Link
-                    href="/admin/logs"
-                    className={linkClass("/admin/logs")}
-                  >
-                    Logs
-                  </Link>
-                  <Link
-                    href="/admin/settings"
-                    className={linkClass("/admin/settings")}
-                  >
-                    Settings
-                  </Link>
-                </>
+                {isAdmin && (
+                  <>
+                    <Link href="/admin" className={linkClass("/admin")}>
+                      Admin
+                    </Link>
+                    <Link
+                      href="/admin/logs"
+                      className={linkClass("/admin/logs")}
+                    >
+                      Logs
+                    </Link>
+                    <Link
+                      href="/admin/settings"
+                      className={linkClass("/admin/settings")}
+                    >
+                      Settings
+                    </Link>
+                  </>
+                )}
+              </>
+            )}
+
+            {!loadingUser && !user && (
+              <>
+                <Link href="/login" className={linkClass("/login")}>
+                  Login
+                </Link>
+                <Link href="/register" className={linkClass("/register")}>
+                  Register
+                </Link>
+              </>
+            )}
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-md text-slate-700 hover:bg-slate-100"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
               )}
-            </>
-          )}
-
-          {/* Auth section */}
-          {!loadingUser && !user && (
-            <>
-              <Link href="/login" className={linkClass("/login")}>
-                Login
-              </Link>
-              <Link href="/register" className={linkClass("/register")}>
-                Register
-              </Link>
-            </>
-          )}
+            </button>
+          </div>
         </div>
+
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-3 pb-3 space-y-1">
+            {user && (
+              <>
+                <Link
+                  href="/dashboard"
+                  className={linkClass("/dashboard", true)}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+
+                <Link
+                  href="/profile"
+                  className={linkClass("/profile", true)}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Profile
+                </Link>
+
+                {isAdmin && (
+                  <>
+                    <Link
+                      href="/admin"
+                      className={linkClass("/admin", true)}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Admin
+                    </Link>
+                    <Link
+                      href="/admin/logs"
+                      className={linkClass("/admin/logs", true)}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Logs
+                    </Link>
+                    <Link
+                      href="/admin/settings"
+                      className={linkClass("/admin/settings", true)}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      Settings
+                    </Link>
+                  </>
+                )}
+
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 text-base font-medium text-red-600 hover:bg-red-50 rounded-md"
+                >
+                  Logout
+                </button>
+              </>
+            )}
+
+            {!loadingUser && !user && (
+              <>
+                <Link
+                  href="/login"
+                  className={linkClass("/login", true)}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/register"
+                  className={linkClass("/register", true)}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Register
+                </Link>
+              </>
+            )}
+          </div>
+        )}
       </nav>
     </header>
   );
