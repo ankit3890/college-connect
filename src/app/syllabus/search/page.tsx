@@ -46,7 +46,7 @@ export default function SyllabusSearchPage() {
                 </div>
 
                 {/* Search Card */}
-                <div className="bg-white rounded-2xl shadow-lg px-8 py-8 mb-8">
+                <div className="bg-white rounded-2xl shadow-lg px-8 py-8 mb-8 border-2 border-black">
                     <SearchBox
                         onResults={(r) => {
                             setResults(r);
@@ -57,7 +57,7 @@ export default function SyllabusSearchPage() {
 
                 {/* Results */}
                 {results.length > 0 && (
-                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-black">
                         <div className="px-6 py-4 border-b border-slate-200">
                             <h2 className="text-lg font-semibold text-slate-900">
                                 Subjects ({results.length})
@@ -116,7 +116,7 @@ export default function SyllabusSearchPage() {
 
                 {/* Empty State */}
                 {results.length === 0 && !searching && (
-                    <div className="bg-white rounded-2xl shadow-lg px-8 py-12 text-center">
+                    <div className="bg-white rounded-2xl shadow-lg px-8 py-12 text-center border-2 border-black">
                         <div className="flex justify-center mb-4">
                             <svg className="w-16 h-16 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

@@ -29,7 +29,7 @@ export default function DashboardPage() {
           {/* Attendance Card */}
           <Link
             href="/attendance"
-            className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-transparent hover:border-blue-500"
+            className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-black hover:border-blue-500"
           >
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
@@ -57,7 +57,7 @@ export default function DashboardPage() {
           {/* Syllabus Card */}
           <Link
             href="/syllabus/search"
-            className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-transparent hover:border-emerald-500"
+            className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-black hover:border-emerald-500"
           >
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 bg-emerald-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
@@ -85,7 +85,7 @@ export default function DashboardPage() {
           {/* Profile Card */}
           <Link
             href="/profile"
-            className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-transparent hover:border-purple-500"
+            className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-black hover:border-purple-500"
           >
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
@@ -113,7 +113,7 @@ export default function DashboardPage() {
           {/* Settings Card */}
           <Link
             href="/settings"
-            className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-transparent hover:border-slate-500"
+            className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-black hover:border-slate-500"
           >
             <div className="flex items-start gap-4">
               <div className="w-14 h-14 bg-slate-100 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">

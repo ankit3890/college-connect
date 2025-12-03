@@ -53,7 +53,7 @@ export default function LogsPage() {
         </div>
 
         {/* Logs Table */}
-        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-black">
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-slate-50 border-b border-slate-200">
@@ -90,10 +90,10 @@ export default function LogsPage() {
                           {log.actorId?.name || log.actorStudentId || "System"}
                         </div>
                         <span className={`inline-flex px-2 py-0.5 text-xs font-semibold rounded-full mt-1 ${log.actorRole === "superadmin"
-                            ? "bg-purple-100 text-purple-800"
-                            : log.actorRole === "admin"
-                              ? "bg-blue-100 text-blue-800"
-                              : "bg-emerald-100 text-emerald-800"
+                          ? "bg-purple-100 text-purple-800"
+                          : log.actorRole === "admin"
+                            ? "bg-blue-100 text-blue-800"
+                            : "bg-emerald-100 text-emerald-800"
                           }`}>
                           {log.actorRole === "superadmin" ? "Super Admin" : log.actorRole === "admin" ? "Admin" : "Student"}
                         </span>

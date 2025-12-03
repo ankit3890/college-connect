@@ -29,7 +29,7 @@ export default function AdminPage() {
           {/* User Management */}
           <Link
             href="/admin/users"
-            className="group bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all border-2 border-transparent hover:border-blue-500"
+            className="group bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all border-2 border-black hover:border-blue-500"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -45,7 +45,7 @@ export default function AdminPage() {
           {/* System Logs */}
           <Link
             href="/admin/logs"
-            className="group bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all border-2 border-transparent hover:border-amber-500"
+            className="group bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all border-2 border-black hover:border-amber-500"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
@@ -61,7 +61,7 @@ export default function AdminPage() {
           {/* Settings */}
           <Link
             href="/admin/settings"
-            className="group bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all border-2 border-transparent hover:border-purple-500"
+            className="group bg-white rounded-2xl shadow-lg p-6 hover:shadow-xl transition-all border-2 border-black hover:border-purple-500"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">

@@ -189,7 +189,7 @@ export default function AdminUsersPage() {
                 </div>
 
                 {/* Filters and Search */}
-                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                <div className="bg-white rounded-2xl shadow-lg p-6 mb-6 border-2 border-black">
                     <div className="flex flex-col md:flex-row gap-4">
                         <div className="flex-1">
                             <div className="relative">
@@ -234,23 +234,23 @@ export default function AdminUsersPage() {
 
                 {/* Stats */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-                    <div className="bg-white rounded-xl shadow p-4">
+                    <div className="bg-white rounded-xl shadow p-4 border-2 border-black">
                         <div className="text-2xl font-bold text-slate-900">{users.length}</div>
                         <div className="text-sm text-slate-600">Total Users</div>
                     </div>
-                    <div className="bg-white rounded-xl shadow p-4">
+                    <div className="bg-white rounded-xl shadow p-4 border-2 border-black">
                         <div className="text-2xl font-bold text-emerald-600">
                             {users.filter(u => u.role === "student" || !u.role).length}
                         </div>
                         <div className="text-sm text-slate-600">Students</div>
                     </div>
-                    <div className="bg-white rounded-xl shadow p-4">
+                    <div className="bg-white rounded-xl shadow p-4 border-2 border-black">
                         <div className="text-2xl font-bold text-blue-600">
                             {users.filter(u => u.role === "admin" || u.role === "superadmin").length}
                         </div>
                         <div className="text-sm text-slate-600">Admins</div>
                     </div>
-                    <div className="bg-white rounded-xl shadow p-4">
+                    <div className="bg-white rounded-xl shadow p-4 border-2 border-black">
                         <div className="text-2xl font-bold text-red-600">
                             {users.filter(u => u.isBanned).length}
                         </div>
@@ -260,11 +260,11 @@ export default function AdminUsersPage() {
 
                 {/* Users Table */}
                 {loading ? (
-                    <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+                    <div className="bg-white rounded-2xl shadow-lg p-12 text-center border-2 border-black">
                         <div className="text-slate-600">Loading users...</div>
                     </div>
                 ) : filteredUsers.length === 0 ? (
-                    <div className="bg-white rounded-2xl shadow-lg p-12 text-center">
+                    <div className="bg-white rounded-2xl shadow-lg p-12 text-center border-2 border-black">
                         <svg className="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
                         </svg>
@@ -274,7 +274,7 @@ export default function AdminUsersPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div className="bg-white rounded-2xl shadow-lg overflow-hidden border-2 border-black">
                         <div className="overflow-x-auto">
                             <table className="w-full">
                                 <thead className="bg-slate-50 border-b border-slate-200">
@@ -406,7 +406,7 @@ export default function AdminUsersPage() {
             {/* Profile Modal */}
             {showProfileModal && selectedUser && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-2 border-black">
                         <div className="p-6 border-b border-slate-200">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-2xl font-bold text-slate-900">User Profile</h2>
@@ -487,7 +487,7 @@ export default function AdminUsersPage() {
             {/* Edit Modal */}
             {showEditModal && selectedUser && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full border-2 border-black">
                         <div className="p-6 border-b border-slate-200">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-2xl font-bold text-slate-900">Edit User</h2>
@@ -560,7 +560,7 @@ export default function AdminUsersPage() {
             {/* Ban Modal */}
             {showBanModal && selectedUser && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full border-2 border-black">
                         <div className="p-6 border-b border-slate-200">
                             <div className="flex items-center justify-between">
                                 <h2 className="text-2xl font-bold text-slate-900">
