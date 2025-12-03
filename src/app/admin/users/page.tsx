@@ -405,7 +405,7 @@ export default function AdminUsersPage() {
 
             {/* Profile Modal */}
             {showProfileModal && selectedUser && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border-2 border-black">
                         <div className="p-6 border-b border-slate-200">
                             <div className="flex items-center justify-between">
@@ -486,7 +486,7 @@ export default function AdminUsersPage() {
 
             {/* Edit Modal */}
             {showEditModal && selectedUser && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full border-2 border-black">
                         <div className="p-6 border-b border-slate-200">
                             <div className="flex items-center justify-between">
@@ -559,7 +559,7 @@ export default function AdminUsersPage() {
 
             {/* Ban Modal */}
             {showBanModal && selectedUser && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-md flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full border-2 border-black">
                         <div className="p-6 border-b border-slate-200">
                             <div className="flex items-center justify-between">
