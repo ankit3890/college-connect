@@ -638,8 +638,9 @@ export default function AdminUsersPage() {
                                 <label className="block text-sm font-medium text-slate-700 mb-2">Role</label>
                                 <select
                                     value={editForm.role}
+                                    disabled={currentUser?.role === "admin" && currentUser?._id === selectedUser?._id}
                                     onChange={(e) => setEditForm({ ...editForm, role: e.target.value })}
-                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className={`w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${currentUser?.role === "admin" && currentUser?._id === selectedUser?._id ? "bg-slate-100 text-slate-500 cursor-not-allowed" : ""}`}
                                 >
                                     <option value="student">Student</option>
                                     <option value="tester">Tester</option>

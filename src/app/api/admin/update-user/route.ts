@@ -108,93 +108,48 @@ export async function POST(req: Request) {
       }
       targetUser.username = body.username;
     }
-    if (typeof email === "string") targetUser.email = email;
-    if (typeof mobileNumber === "string") targetUser.mobileNumber = mobileNumber;
-    if (typeof branch === "string") targetUser.branch = branch;
-    if (typeof year === "number" || year === null) targetUser.year = year as any;
-
-    let roleChanged = false;
-    let oldRole: string | undefined;
-    let newRole: string | undefined;
-
-    if (role) {
-      // Super Admin can assign any role
-      if (adminUser.role === "superadmin") {
-        if (role !== targetUser.role) {
-          roleChanged = true;
-          oldRole = targetUser.role;
-          newRole = role;
-          targetUser.role = role;
-        }
-      }
-      // Admin can only assign "student" or "tester"
-      else if (adminUser.role === "admin") {
-        if (role === "student" || role === "tester") {
-          if (role !== targetUser.role) {
-            roleChanged = true;
-            oldRole = targetUser.role;
-            newRole = role;
-            targetUser.role = role;
-          }
-        } else if (role === "admin" || role === "superadmin") {
-          return NextResponse.json({ msg: "Admin cannot promote users to admin/superadmin" }, { status: 403 });
-        }
-      }
-    }
-
-    await targetUser.save();
-
-    // Build changedFields diff for UPDATE_USER
-    const changedFields: Record<string, { from: any; to: any }> = {};
-    (["studentId", "username", "name", "email", "mobileNumber", "branch", "year"] as const).forEach(
-      (key) => {
-        const before = (oldData as any)[key];
-        const after = (targetUser as any)[key];
-        if (before !== after) {
-          changedFields[key] = { from: before, to: after };
-        }
-      }
+  }
     );
 
-    // Log UPDATE_USER if anything changed (including role)
-    if (Object.keys(changedFields).length > 0 || roleChanged) {
-      await AdminLog.create({
-        action: "UPDATE_USER",
-        actorId: adminUser._id,
-        actorStudentId: adminUser.studentId,
-        actorRole: adminUser.role,
-        targetUserId: targetUser._id,
-        targetStudentId: targetUser.studentId,
-        details: `Updated user ${targetUser.studentId}`,
-        metadata: {
-          changedFields,
-          roleChanged,
-          oldRole,
-          newRole,
-        },
-      });
-    }
-
-    // Separate CHANGE_ROLE log for clear filtering
-    if (roleChanged && oldRole && newRole) {
-      await AdminLog.create({
-        action: "CHANGE_ROLE",
-        actorId: adminUser._id,
-        actorStudentId: adminUser.studentId,
-        actorRole: adminUser.role,
-        targetUserId: targetUser._id,
-        targetStudentId: targetUser.studentId,
-        details: `Changed role from ${oldRole} to ${newRole} for ${targetUser.studentId}`,
-        metadata: {
-          fromRole: oldRole,
-          toRole: newRole,
-        },
-      });
-    }
-
-    return NextResponse.json({ msg: "OK", user: targetUser });
-  } catch (err) {
-    console.error("POST /api/admin/update-user error:", err);
-    return NextResponse.json({ msg: "Server error" }, { status: 500 });
+  // Log UPDATE_USER if anything changed (including role)
+  if (Object.keys(changedFields).length > 0 || roleChanged) {
+    await AdminLog.create({
+      action: "UPDATE_USER",
+      actorId: adminUser._id,
+      actorStudentId: adminUser.studentId,
+      actorRole: adminUser.role,
+      targetUserId: targetUser._id,
+      targetStudentId: targetUser.studentId,
+      details: `Updated user ${targetUser.studentId}`,
+      metadata: {
+        changedFields,
+        roleChanged,
+        oldRole,
+        newRole,
+      },
+    });
   }
+
+  // Separate CHANGE_ROLE log for clear filtering
+  if (roleChanged && oldRole && newRole) {
+    await AdminLog.create({
+      action: "CHANGE_ROLE",
+      actorId: adminUser._id,
+      actorStudentId: adminUser.studentId,
+      actorRole: adminUser.role,
+      targetUserId: targetUser._id,
+      targetStudentId: targetUser.studentId,
+      details: `Changed role from ${oldRole} to ${newRole} for ${targetUser.studentId}`,
+      metadata: {
+        fromRole: oldRole,
+        toRole: newRole,
+      },
+    });
+  }
+
+  return NextResponse.json({ msg: "OK", user: targetUser });
+} catch (err) {
+  console.error("POST /api/admin/update-user error:", err);
+  return NextResponse.json({ msg: "Server error" }, { status: 500 });
+}
 }
