@@ -112,19 +112,8 @@ export default function UserProfileView() {
 
             <main className="max-w-4xl mx-auto px-4 py-8 space-y-6">
                 {/* heading */}
-                <header className="text-center mb-8">
-                    <div className="flex justify-center mb-4">
-                        <div className="w-16 h-16 bg-white rounded-2xl shadow-lg flex items-center justify-center">
-                            <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                            </svg>
-                        </div>
-                    </div>
-                    <h1 className="text-3xl font-bold text-slate-900 mb-2">User Profile</h1>
-                    <p className="text-slate-600">
-                        Viewing profile details for {user.studentId}
-                    </p>
-                </header>
+                {/* heading removed to match screenshot */}
+                <div className="mt-8"></div>
 
                 {/* global message */}
                 {message && (
