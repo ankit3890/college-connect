@@ -39,10 +39,12 @@ export default function AdminUsersPage() {
 
     // Edit form state
     const [editForm, setEditForm] = useState<{
+        name: string;
         role: string;
         branch: string;
         year: number | string;
     }>({
+        name: "",
         role: "",
         branch: "",
         year: 0,
@@ -120,6 +122,7 @@ export default function AdminUsersPage() {
     function openEditModal(user: User) {
         setSelectedUser(user);
         setEditForm({
+            name: user.name || "",
             role: user.role || "student",
             branch: user.branch || "",
             year: user.year || 1,
@@ -524,6 +527,17 @@ export default function AdminUsersPage() {
                             </div>
                         </div>
                         <div className="p-6 space-y-4">
+                            <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-2">Full Name</label>
+                                <input
+                                    type="text"
+                                    value={editForm.name}
+                                    onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    placeholder="John Doe"
+                                />
+                            </div>
+
                             <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-2">Role</label>
                                 <select
