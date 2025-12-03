@@ -1,4 +1,3 @@
-// src/app/api/admin/update-user/route.ts
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
@@ -108,48 +107,111 @@ export async function POST(req: Request) {
       }
       targetUser.username = body.username;
     }
-  }
-    );
 
-  // Log UPDATE_USER if anything changed (including role)
-  if (Object.keys(changedFields).length > 0 || roleChanged) {
-    await AdminLog.create({
-      action: "UPDATE_USER",
-      actorId: adminUser._id,
-      actorStudentId: adminUser.studentId,
-      actorRole: adminUser.role,
-      targetUserId: targetUser._id,
-      targetStudentId: targetUser.studentId,
-      details: `Updated user ${targetUser.studentId}`,
-      metadata: {
-        changedFields,
-        roleChanged,
-        oldRole,
-        newRole,
-      },
-    });
-  }
+    // Update other allowed fields
+    if (email !== undefined) targetUser.email = email;
+    if (mobileNumber !== undefined) targetUser.mobileNumber = mobileNumber;
+    if (branch !== undefined) targetUser.branch = branch;
+    if (year !== undefined) targetUser.year = year;
 
-  // Separate CHANGE_ROLE log for clear filtering
-  if (roleChanged && oldRole && newRole) {
-    await AdminLog.create({
-      action: "CHANGE_ROLE",
-      actorId: adminUser._id,
-      actorStudentId: adminUser.studentId,
-      actorRole: adminUser.role,
-      targetUserId: targetUser._id,
-      targetStudentId: targetUser.studentId,
-      details: `Changed role from ${oldRole} to ${newRole} for ${targetUser.studentId}`,
-      metadata: {
-        fromRole: oldRole,
-        toRole: newRole,
-      },
-    });
-  }
+    let roleChanged = false;
+    let oldRole = "";
+    let newRole = "";
 
-  return NextResponse.json({ msg: "OK", user: targetUser });
-} catch (err) {
-  console.error("POST /api/admin/update-user error:", err);
-  return NextResponse.json({ msg: "Server error" }, { status: 500 });
-}
+    // Role update logic
+    if (role) {
+      console.log(`[DEBUG] Role update request: Admin=${adminUser.role}, Target=${targetUser.role}, NewRole=${role}`);
+
+      // 🔒 CRITICAL SECURITY: Prevent Self-Role Update for BOTH Admin and SuperAdmin
+      if (isSelf) {
+        if (role !== targetUser.role) {
+          return NextResponse.json({ msg: "You cannot change your own role" }, { status: 403 });
+        }
+      } else {
+        // Super Admin can assign any role to OTHERS
+        if (adminUser.role === "superadmin") {
+          if (role !== targetUser.role) {
+            roleChanged = true;
+            oldRole = targetUser.role;
+            newRole = role;
+            targetUser.role = role;
+          }
+        }
+        // Admin can only assign "student" or "tester" to OTHERS
+        else if (adminUser.role === "admin") {
+          console.log(`[DEBUG] Admin attempting to update role`);
+
+          if (role === "student" || role === "tester") {
+            if (role !== targetUser.role) {
+              console.log(`[DEBUG] Role change allowed`);
+              roleChanged = true;
+              oldRole = targetUser.role;
+              newRole = role;
+              targetUser.role = role;
+            } else {
+              console.log(`[DEBUG] Role is same as target`);
+            }
+          } else if (role === "admin" || role === "superadmin") {
+            console.log(`[DEBUG] Admin tried to promote to admin/superadmin`);
+            return NextResponse.json({ msg: "Admin cannot promote users to admin/superadmin" }, { status: 403 });
+          } else {
+            console.log(`[DEBUG] Invalid role for admin: ${role}`);
+          }
+        }
+      }
+    } else {
+      console.log(`[DEBUG] No role provided in body`);
+    }
+
+    await targetUser.save();
+
+    // Calculate changed fields for logging
+    const changedFields: any = {};
+    if (targetUser.username !== oldData.username) changedFields.username = { from: oldData.username, to: targetUser.username };
+    if (targetUser.email !== oldData.email) changedFields.email = { from: oldData.email, to: targetUser.email };
+    if (targetUser.mobileNumber !== oldData.mobileNumber) changedFields.mobileNumber = { from: oldData.mobileNumber, to: targetUser.mobileNumber };
+    if (targetUser.branch !== oldData.branch) changedFields.branch = { from: oldData.branch, to: targetUser.branch };
+    if (targetUser.year !== oldData.year) changedFields.year = { from: oldData.year, to: targetUser.year };
+
+    // Log UPDATE_USER if anything changed (including role)
+    if (Object.keys(changedFields).length > 0 || roleChanged) {
+      await AdminLog.create({
+        action: "UPDATE_USER",
+        actorId: adminUser._id,
+        actorStudentId: adminUser.studentId,
+        actorRole: adminUser.role,
+        targetUserId: targetUser._id,
+        targetStudentId: targetUser.studentId,
+        details: `Updated user ${targetUser.studentId}`,
+        metadata: {
+          changedFields,
+          roleChanged,
+          oldRole,
+          newRole,
+        },
+      });
+    }
+
+    // Separate CHANGE_ROLE log for clear filtering
+    if (roleChanged && oldRole && newRole) {
+      await AdminLog.create({
+        action: "CHANGE_ROLE",
+        actorId: adminUser._id,
+        actorStudentId: adminUser.studentId,
+        actorRole: adminUser.role,
+        targetUserId: targetUser._id,
+        targetStudentId: targetUser.studentId,
+        details: `Changed role from ${oldRole} to ${newRole} for ${targetUser.studentId}`,
+        metadata: {
+          fromRole: oldRole,
+          toRole: newRole,
+        },
+      });
+    }
+
+    return NextResponse.json({ msg: "OK", user: targetUser });
+  } catch (err) {
+    console.error("POST /api/admin/update-user error:", err);
+    return NextResponse.json({ msg: "Server error" }, { status: 500 });
+  }
 }
