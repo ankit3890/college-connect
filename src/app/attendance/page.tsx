@@ -898,14 +898,14 @@ export default function AttendancePage() {
                                   <button
                                     type="button"
                                     onClick={() => handleOpenDaywise(c)}
-                                    className="flex-1 inline-flex justify-center items-center rounded uppercase tracking-wide border-2 border-black px-4 py-2 text-[12px] font-semibold hover:bg-slate-900 hover:text-white bg-white shadow-[4px_4px_0_rgba(0,0,0,0.08)]"
+                                    className="flex-1 inline-flex justify-center items-center rounded uppercase tracking-wide border-2 border-black dark:border-slate-600 px-4 py-2 text-[12px] font-semibold hover:bg-slate-900 hover:text-white bg-white dark:bg-slate-700 dark:text-white shadow-[4px_4px_0_rgba(0,0,0,0.08)]"
                                   >
                                     SEE DAYWISE
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => handleOpenSchedule(c)}
-                                    className="flex-1 inline-flex justify-center items-center rounded uppercase tracking-wide border-2 border-black px-4 py-2 text-[12px] font-semibold hover:bg-slate-900 hover:text-white bg-white shadow-[4px_4px_0_rgba(0,0,0,0.08)]"
+                                    className="flex-1 inline-flex justify-center items-center rounded uppercase tracking-wide border-2 border-black dark:border-slate-600 px-4 py-2 text-[12px] font-semibold hover:bg-slate-900 hover:text-white bg-white dark:bg-slate-700 dark:text-white shadow-[4px_4px_0_rgba(0,0,0,0.08)]"
                                   >
                                     SEE SCHEDULE
                                   </button>
