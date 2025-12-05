@@ -83,13 +83,13 @@ export async function POST(req: NextRequest) {
             feedbackData.ipAddress = ip;
         }
 
-        const feedback = await Feedback.create(feedbackData);
+        const feedback = await Feedback.create(feedbackData) as any;
 
         return NextResponse.json(
             {
                 success: true,
                 message: "Feedback submitted successfully!",
-                feedbackId: String(feedback._id),
+                feedbackId: feedback._id.toString(),
             },
             { status: 201 }
         );
