@@ -44,9 +44,9 @@ export async function GET(req: NextRequest) {
             );
         }
 
-        // Check if user is admin
+        // Check if user is admin or superadmin
         const user = await User.findById(decoded.id);
-        if (!user || user.role !== "admin") {
+        if (!user || (user.role !== "admin" && user.role !== "superadmin")) {
             return NextResponse.json(
                 { error: "Admin access required" },
                 { status: 403 }
@@ -91,9 +91,9 @@ export async function PATCH(req: NextRequest) {
             );
         }
 
-        // Check if user is admin
+        // Check if user is admin or superadmin
         const user = await User.findById(decoded.id);
-        if (!user || user.role !== "admin") {
+        if (!user || (user.role !== "admin" && user.role !== "superadmin")) {
             return NextResponse.json(
                 { error: "Admin access required" },
                 { status: 403 }
