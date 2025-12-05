@@ -7,9 +7,24 @@ export default function UserSearch() {
     const [query, setQuery] = useState("");
     const router = useRouter();
 
-    const handleSearch = (e: React.FormEvent) => {
+    const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!query.trim()) return;
+
+        // Log Search Activity
+        try {
+            await fetch("/api/log/activity", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    action: "SEARCH_PROFILE",
+                    details: `Searched for ${query.trim()}`
+                })
+            });
+        } catch (err) {
+            // ignore
+        }
+
         // Redirect to the profile page of the searched user
         router.push(`/u/${query.trim()}`);
     };

@@ -103,6 +103,25 @@ export default function PublicProfilePage() {
             })
             .catch(() => { });
 
+        // Log View Profile
+        // We use a small timeout to ensure we don't log if the profile doesn't exist (handled by error check above, but this is safer)
+        // Actually, better to just fire and forget.
+        const logView = async () => {
+            try {
+                await fetch("/api/log/activity", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        action: "VIEW_PROFILE",
+                        details: `Viewed profile of ${username}`
+                    })
+                });
+            } catch (e) {
+                // ignore logging errors
+            }
+        };
+        logView();
+
     }, [username]);
 
     const handleFollowToggle = async () => {

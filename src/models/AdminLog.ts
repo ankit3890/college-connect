@@ -19,11 +19,11 @@ const AdminLogSchema: Schema<IAdminLog> = new Schema(
   {
     action: { type: String, required: true },
 
-    actorId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    actorId: { type: Schema.Types.ObjectId, ref: "User_Fixed_V1", required: true },
     actorStudentId: { type: String, required: true },
     actorRole: { type: String, required: true },
 
-    targetUserId: { type: Schema.Types.ObjectId, ref: "User", default: null },
+    targetUserId: { type: Schema.Types.ObjectId, ref: "User_Fixed_V1", default: null },
     targetStudentId: { type: String, default: null },
 
     details: { type: String, default: null },
@@ -35,6 +35,6 @@ const AdminLogSchema: Schema<IAdminLog> = new Schema(
 );
 
 const AdminLog: Model<IAdminLog> =
-  mongoose.models.AdminLog || mongoose.model<IAdminLog>("AdminLog", AdminLogSchema);
+  mongoose.models.AdminLog_V1 || mongoose.model<IAdminLog>("AdminLog_V1", AdminLogSchema, "adminlogs");
 
 export default AdminLog;

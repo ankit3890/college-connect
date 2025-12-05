@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
 import User from "@/models/User";
+import UserActivityLog from "@/models/UserActivityLog";
 
 export const dynamic = 'force-dynamic';
 
@@ -115,6 +116,30 @@ export async function PATCH(req: Request) {
             new: true,
             runValidators: true
         }).select("-passwordHash");
+
+        // LOG ACTIVITY
+        try {
+            const forwardedFor = req.headers.get("x-forwarded-for");
+            const ipAddress = forwardedFor ? forwardedFor.split(",")[0] : "Unknown IP";
+            const userAgent = req.headers.get("user-agent") || "Unknown";
+
+            // Check if New Visitor
+            const existingLog = await UserActivityLog.findOne({ ipAddress });
+            const isNewVisitor = !existingLog;
+
+            await UserActivityLog.create({
+                userId: updatedUser._id,
+                studentId: updatedUser.studentId,
+                name: updatedUser.name,
+                ipAddress,
+                action: "UPDATE_PROFILE",
+                details: "User updated their profile",
+                userAgent,
+                isNewVisitor,
+            });
+        } catch (logErr) {
+            console.error("Failed to log profile update:", logErr);
+        }
 
         return NextResponse.json({ profile: updatedUser, msg: "Profile updated successfully" });
     } catch (err) {

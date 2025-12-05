@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
 
-import User from "../../../../models/User";
-import AdminLog from "../../../../models/AdminLog";
+import User from "@/models/User";
+import AdminLog from "@/models/AdminLog";
 
 interface TokenPayload {
   id: string;
@@ -99,7 +99,8 @@ export async function POST(req: Request) {
     // (Previously allowed for Super Admin, now restricted as per request)
     // if (adminUser.role === "superadmin") { ... } -> REMOVED
 
-    // Username update (Allowed for Admin & Super Admin)
+    // Username update (Allowed for Admin & Super Admin) -> DISABLED as per request
+    /*
     if (body.username && body.username !== targetUser.username) {
       const existing = await User.findOne({ username: body.username });
       if (existing) {
@@ -107,6 +108,7 @@ export async function POST(req: Request) {
       }
       targetUser.username = body.username;
     }
+    */
 
     // Update other allowed fields
     if (email !== undefined) targetUser.email = email;
@@ -212,6 +214,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ msg: "OK", user: targetUser });
   } catch (err) {
     console.error("POST /api/admin/update-user error:", err);
-    return NextResponse.json({ msg: "Server error" }, { status: 500 });
+    return NextResponse.json({ msg: `Server error: ${(err as Error).message}` }, { status: 500 });
   }
 }

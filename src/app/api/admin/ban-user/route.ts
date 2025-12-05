@@ -2,9 +2,8 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
 
-// use relative imports for models
-import User from "../../../../models/User";
-import AdminLog from "../../../../models/AdminLog";
+import User from "@/models/User";
+import AdminLog from "@/models/AdminLog";
 
 interface TokenPayload {
   id: string;
@@ -127,6 +126,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ msg: "OK", user: targetUser });
   } catch (err) {
     console.error("POST /api/admin/ban-user error:", err);
-    return NextResponse.json({ msg: "Server error" }, { status: 500 });
+    return NextResponse.json({ msg: `Server error: ${(err as Error).message}` }, { status: 500 });
   }
 }

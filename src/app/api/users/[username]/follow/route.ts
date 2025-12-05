@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
 import Follow from "@/models/Follow";
+import UserActivityLog from "@/models/UserActivityLog";
 import { verifyToken } from "@/lib/auth";
 import { cookies } from "next/headers";
 
@@ -73,6 +74,17 @@ export async function POST(
             await User.findByIdAndUpdate(currentUserId, { $inc: { followingCount: -1 } });
             await User.findByIdAndUpdate(targetUser._id, { $inc: { followersCount: -1 } });
 
+            // Log Activity
+            await UserActivityLog.create({
+                action: "UNFOLLOW_USER",
+                userId: currentUserId,
+                studentId: currentUser.studentId,
+                name: currentUser.name,
+                details: `Unfollowed user ${targetUser.username || targetUser.studentId}`,
+                ipAddress: req.headers.get("x-forwarded-for") || "unknown",
+                userAgent: req.headers.get("user-agent") || "unknown",
+            });
+
             return NextResponse.json({ isFollowing: false, msg: "Unfollowed" });
         } else {
             // FOLLOW
@@ -84,6 +96,17 @@ export async function POST(
             // Increment counts
             await User.findByIdAndUpdate(currentUserId, { $inc: { followingCount: 1 } });
             await User.findByIdAndUpdate(targetUser._id, { $inc: { followersCount: 1 } });
+
+            // Log Activity
+            await UserActivityLog.create({
+                action: "FOLLOW_USER",
+                userId: currentUserId,
+                studentId: currentUser.studentId,
+                name: currentUser.name,
+                details: `Followed user ${targetUser.username || targetUser.studentId}`,
+                ipAddress: req.headers.get("x-forwarded-for") || "unknown",
+                userAgent: req.headers.get("user-agent") || "unknown",
+            });
 
             return NextResponse.json({ isFollowing: true, msg: "Followed" });
         }

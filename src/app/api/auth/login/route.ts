@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import User from "@/models/User";
+import UserActivityLog from "@/models/UserActivityLog";
 import bcrypt from "bcryptjs";
 import { createToken } from "@/lib/auth";
 
@@ -78,6 +79,30 @@ export async function POST(req: Request) {
       id: user._id.toString(),
       studentId: user.studentId,
     });
+
+    // LOG ACTIVITY
+    try {
+      const forwardedFor = req.headers.get("x-forwarded-for");
+      const ipAddress = forwardedFor ? forwardedFor.split(",")[0] : "Unknown IP";
+      const userAgent = req.headers.get("user-agent") || "Unknown";
+
+      // Check if New Visitor
+      const existingLog = await UserActivityLog.findOne({ ipAddress });
+      const isNewVisitor = !existingLog;
+
+      await UserActivityLog.create({
+        userId: user._id,
+        studentId: user.studentId,
+        name: user.name,
+        ipAddress,
+        action: "USER_LOGIN",
+        details: "User logged in successfully",
+        userAgent,
+        isNewVisitor,
+      });
+    } catch (logErr) {
+      console.error("Failed to log login activity:", logErr);
+    }
 
     const res = NextResponse.json({
       msg: "Login successful",

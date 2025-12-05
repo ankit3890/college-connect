@@ -5,6 +5,18 @@ import Navbar from "@/components/Navbar";
 import UserSearch from "@/components/UserSearch";
 
 export default function DashboardPage() {
+  const logActivity = async (action: string, details: string) => {
+    try {
+      await fetch("/api/log/activity", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action, details }),
+      });
+    } catch (err) {
+      console.error("Failed to log activity:", err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-100">
       <Navbar />
@@ -35,6 +47,7 @@ export default function DashboardPage() {
           {/* Attendance Card */}
           <Link
             href="/attendance"
+            onClick={() => logActivity("ACCESS_ATTENDANCE", "Accessed Attendance")}
             className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-black hover:border-blue-500"
           >
             <div className="flex items-start gap-4">
@@ -63,6 +76,7 @@ export default function DashboardPage() {
           {/* Syllabus Card */}
           <Link
             href="/syllabus/search"
+            onClick={() => logActivity("ACCESS_SYLLABUS", "Accessed Syllabus")}
             className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-black hover:border-emerald-500"
           >
             <div className="flex items-start gap-4">
@@ -91,6 +105,7 @@ export default function DashboardPage() {
           {/* Profile Card */}
           <Link
             href="/profile"
+            onClick={() => logActivity("ACCESS_PROFILE", "Accessed Profile")}
             className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-black hover:border-purple-500"
           >
             <div className="flex items-start gap-4">
@@ -119,6 +134,7 @@ export default function DashboardPage() {
           {/* Settings Card */}
           <Link
             href="/settings"
+            onClick={() => logActivity("ACCESS_SETTINGS", "Accessed Settings")}
             className="group bg-white rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all duration-200 border-2 border-black hover:border-slate-500"
           >
             <div className="flex items-start gap-4">

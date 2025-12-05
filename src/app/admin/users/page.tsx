@@ -175,9 +175,13 @@ export default function AdminUsersPage() {
                 await fetchUsers();
                 setShowBanModal(false);
                 setSelectedUser(null);
+            } else {
+                const data = await res.json();
+                alert(data.msg || "Failed to ban user");
             }
         } catch (err) {
             console.error("Failed to ban user:", err);
+            alert("An error occurred while banning the user");
         }
     }
 
@@ -199,9 +203,13 @@ export default function AdminUsersPage() {
                 await fetchUsers();
                 setShowEditModal(false);
                 setSelectedUser(null);
+            } else {
+                const data = await res.json();
+                alert(data.msg || "Failed to update user");
             }
         } catch (err) {
             console.error("Failed to update user:", err);
+            alert("An error occurred while updating the user");
         }
     }
 
@@ -459,20 +467,23 @@ export default function AdminUsersPage() {
                                                             </>
                                                         )}
 
-                                                        {/* Ban Button - NEVER show for self */}
-                                                        {user._id !== currentUser?._id && (currentUser?.role === "superadmin" || (currentUser?.role === "admin" && (user.role === "student" || user.role === "tester"))) && (
-                                                            <>
-                                                                <span className="text-slate-300">|</span>
-                                                                <button
-                                                                    onClick={() => openBanModal(user)}
-                                                                    className={`font-medium text-sm ${user.isBanned ? "text-green-600 hover:text-green-800" : "text-red-600 hover:text-red-800"
-                                                                        }`}
-                                                                    title={user.isBanned ? "Unban User" : "Ban User"}
-                                                                >
-                                                                    {user.isBanned ? "Unban" : "Ban"}
-                                                                </button>
-                                                            </>
-                                                        )}
+                                                        {/* Ban Button - NEVER show for self, and Super Admin cannot ban other Super Admins */}
+                                                        {user._id !== currentUser?._id && (
+                                                            (currentUser?.role === "superadmin" && user.role !== "superadmin") ||
+                                                            (currentUser?.role === "admin" && (user.role === "student" || user.role === "tester"))
+                                                        ) && (
+                                                                <>
+                                                                    <span className="text-slate-300">|</span>
+                                                                    <button
+                                                                        onClick={() => openBanModal(user)}
+                                                                        className={`font-medium text-sm ${user.isBanned ? "text-green-600 hover:text-green-800" : "text-red-600 hover:text-red-800"
+                                                                            }`}
+                                                                        title={user.isBanned ? "Unban User" : "Ban User"}
+                                                                    >
+                                                                        {user.isBanned ? "Unban" : "Ban"}
+                                                                    </button>
+                                                                </>
+                                                            )}
 
                                                         {/* Delete button for Super Admin only, and NOT for admins */}
                                                         {currentUser?.role === "superadmin" && user.role !== "admin" && user.role !== "superadmin" && (
@@ -556,8 +567,9 @@ export default function AdminUsersPage() {
                                 <input
                                     type="text"
                                     value={editForm.username}
+                                    disabled={true}
                                     onChange={(e) => setEditForm({ ...editForm, username: e.target.value })}
-                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-slate-100 text-slate-500 cursor-not-allowed"
                                     placeholder="@username"
                                 />
                             </div>

@@ -12,7 +12,7 @@ const PasswordResetTokenSchema: Schema<IPasswordResetToken> = new Schema(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User_Fixed_V1",
       required: true,
     },
     token: {
