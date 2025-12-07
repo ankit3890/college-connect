@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Connect - Login</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .login-container {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      animation: slideUp 0.4s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    
+    .logo-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      color: white;
+      margin-bottom: 16px;
+    }
+    
+    h1 {
+      font-size: 28px;
+      color: #1a1a1a;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    
+    .subtitle {
+      color: #666;
+      text-align: center;
+      font-size: 14px;
+      margin-bottom: 32px;
+    }
+    
+    .form-group {
+      margin-bottom: 24px;
+    }
+    
+    label {
+      display: block;
+      color: #333;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    
+    input:focus {
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      margin-top: 8px;
+    }
+    
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .error {
+      color: #e53e3e;
+      font-size: 13px;
+      margin-top: 8px;
+      display: none;
+    }
+    
+    .error.show {
+      display: block;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 24px;
+      color: #666;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <div class="logo-icon">💬</div>
+      <h1>College Connect</h1>
+      <p class="subtitle">Enter your username to continue</p>
+    </div>
+    
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          placeholder="Choose a username"
+          autocomplete="off"
+          required
+        >
+        
+        <div style="display:flex; align-items:center; gap:8px; margin-top:10px;">
+            <input type="checkbox" id="rememberMe" style="width:auto;">
+            <label for="rememberMe" style="margin:0; font-weight:normal; cursor:pointer">Remember me</label>
+        </div>
+
+        <div class="error" id="error"></div>
+      </div>
+      
+      <button type="submit">Continue</button>
+    </form>
+    
+    <div class="footer">
+      Join communities and share anonymously
+    </div>
+  </div>
+
+  <script>
+    const API = "http://127.0.0.1:5503"; // Updated to match frontend server IP expectation
+    
+    // Auto-fill if remembered
+    const savedUser = localStorage.getItem("remembered_username");
+    if(savedUser){
+        document.getElementById("username").value = savedUser;
+        document.getElementById("rememberMe").checked = true;
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      const username = document.getElementById("username").value.trim();
+      const rememberMe = document.getElementById("rememberMe").checked;
+      const errorEl = document.getElementById("error");
+      
+      if (!username) {
+        errorEl.textContent = "Please enter a username";
+        errorEl.classList.add("show");
+        return;
+      }
+      
+      if (username.length < 3) {
+        errorEl.textContent = "Username must be at least 3 characters";
+        errorEl.classList.add("show");
+        return;
+      }
+      
+      try {
+        const res = await fetch(API + "/api/user/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username })
+        });
+        
+        const data = await res.json();
+        
+        if (data.success) {
+          localStorage.setItem("username", username);
+          
+          if(rememberMe){
+            localStorage.setItem("remembered_username", username);
+          } else {
+            localStorage.removeItem("remembered_username");
+          }
+
+          window.location.href = "reddit.html";
+        } else {
+          errorEl.textContent = data.msg || "Login failed";
+          errorEl.classList.add("show");
+        }
+      } catch (err) {
+        console.error(err);
+        errorEl.textContent = "Connection error. Please try again.";
+        errorEl.classList.add("show");
+      }
+    });
+    
+    // Clear error on input
+    document.getElementById("username").addEventListener("input", () => {
+      document.getElementById("error").classList.remove("show");
+    });
+  </script>
+</body>
+</html>
