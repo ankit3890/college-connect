@@ -1,0 +1,90 @@
+:root {
+  --bg: #f1f5f9;
+  --text: #0f172a;
+  --accent: #10b981; /* green */
+  --accent-dark: #059669;
+  --danger: #ef4444;
+  --muted: #64748b;
+  --card-border: rgba(0,0,0,0.12);
+  --card-shadow: rgba(0,0,0,0.08);
+  --btn-blue: #1e88ff;
+  --warning: #f59e0b;
+  --accent-100: rgba(16,185,129,0.12);
+  --danger-100: rgba(239,68,68,0.12);
+}
+.bg-accent-100 { background-color: var(--accent-100) !important; }
+.bg-danger-100 { background-color: var(--danger-100) !important; }
+.bg-accent { background-color: var(--accent) !important; }
+.bg-danger { background-color: var(--danger) !important; }
+.bg-warning { background-color: var(--warning) !important; }
+.text-accent { color: var(--accent) !important; }
+.text-danger { color: var(--danger) !important; }
+.text-warning { color: var(--warning) !important; }
+/* src/app/globals.css */
+
+@import "tailwindcss";
+
+/* Use normal CSS instead of @apply to avoid the error */
+body {
+  background-color: #f1f5f9; /* slate-100 */
+  color: #0f172a;           /* slate-900 */
+}
+
+:root {
+  --bg: #f1f5f9;
+  --text: #0f172a;
+  --accent: #10b981; /* green */
+  --accent-dark: #059669;
+  --danger: #ef4444;
+  --muted: #64748b;
+  --card-border: rgba(0,0,0,0.12);
+  --card-shadow: rgba(0,0,0,0.08);
+  --btn-blue: #1e88ff;
+}
+
+/* Utility helpers */
+.text-accent { color: var(--accent) !important; }
+.text-danger { color: var(--danger) !important; }
+.bg-accent { background-color: var(--accent) !important; }
+.bg-danger { background-color: var(--danger) !important; }
+.card-border { border-color: var(--card-border) !important; }
+.card-shadow { box-shadow: 6px 6px 0 var(--card-shadow); }
+.btn-primary { background: var(--btn-blue); color: white; border: 1px solid var(--btn-blue); }
+.btn-white-outline { background: white; color: var(--btn-blue); border: 1px solid var(--btn-blue); }
+.btn-ghost { background: white; color: var(--text); border: 1px solid rgba(0,0,0,0.9); }
+.btn-danger { background: white; color: var(--danger); border: 1px solid var(--danger); }
+.btn-danger:hover { background: var(--danger); color: #fff; }
+
+/* Make sure text and site theme are consistent */
+.site-card { border: 2px solid var(--card-border); box-shadow: 6px 6px 0 var(--card-shadow); background: white; }
+.site-card-strong { border: 2px solid rgba(0,0,0,0.9); box-shadow: 6px 6px 0 rgba(0,0,0,0.12); background: white; }
+.border-accent { border-color: var(--accent) !important; }
+.border-danger { border-color: var(--danger) !important; }
+.border-warning { border-color: var(--warning) !important; }
+
+/* Print styles for charts and graphs */
+@media print {
+  /* Ensure canvas elements (charts) are visible */
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  
+  /* Force visibility of chart containers */
+  .print\:block {
+    display: block !important;
+  }
+  
+  /* Ensure proper page breaks */
+  .print\:break-inside-avoid {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+  
+  /* Remove shadows and adjust borders for print */
+  .site-card-strong {
+    box-shadow: none !important;
+    border: 1px solid #e2e8f0 !important;
+  }
+}
+
