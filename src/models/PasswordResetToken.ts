@@ -35,7 +35,7 @@ const PasswordResetTokenSchema: Schema<IPasswordResetToken> = new Schema(
 );
 
 // Unique token index
-PasswordResetTokenSchema.index({ token: 1 }, { unique: true });
+// Unique token index handled by schema definition above
 
 const PasswordResetToken: Model<IPasswordResetToken> =
   mongoose.models.PasswordResetToken ||
