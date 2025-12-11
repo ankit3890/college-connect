@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    serverExternalPackages: ['better-sqlite3', 'pdf-parse', 'mongoose', 'puppeteer-extra', 'puppeteer-extra-plugin-stealth', 'puppeteer'],
+    serverExternalPackages: ['better-sqlite3', 'pdf-parse', 'mongoose'],
     eslint: {
         ignoreDuringBuilds: true,
     },
