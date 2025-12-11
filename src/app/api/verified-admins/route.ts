@@ -13,7 +13,7 @@ export async function GET(req: NextRequest) {
       const creators = [...new Set(verifiedCommunities.map(c => c.creator))];
       
       // Fetch user details
-      const users = await User.find({ username: { $in: creators } }).select("username avatar");
+      const users = await User.find({ username: { $in: creators } }).select("username avatarUrl");
       
       // Map to return format
       const admins = users.map(u => {
@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
           const isDev = false; // logic would require checking Dev community members, simplified for now
           return {
               username: u.username,
-              avatar: u.avatar || null,
+              avatar: u.avatarUrl || null,
               communities: comms,
               isDevMember: isDev
           };
