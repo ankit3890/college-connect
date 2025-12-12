@@ -38,6 +38,7 @@ export interface LoginResult {
  * - Returns Capture Screenshot
  */
 export async function initSession(): Promise<{ sessionId: string; screenshot: string; captchaNeeded: boolean }> {
+  console.log(">> [Puppeteer] initSession v1.2 (JSON Fix Applied)");
   // Cleanup old session if expired
   if (globalThis.puppeteerSession) {
     const age = Date.now() - globalThis.puppeteerSession.timestamp;
