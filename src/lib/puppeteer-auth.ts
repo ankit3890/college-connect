@@ -318,11 +318,16 @@ export async function checkSession(sessionId: string): Promise<LoginResult | nul
                              }
                          });
                          console.log("Browser fetch status:", res.status);
-                         const json = await res.json();
-                         console.log("Browser fetch json:", JSON.stringify(json));
-                         
-                         const data = json.data || json;
-                         return data?.id || data?.userId || data?.user_id;
+                         const text = await res.text();
+                         try {
+                             const json = JSON.parse(text);
+                             console.log("Browser fetch json:", JSON.stringify(json));
+                             const data = json.data || json;
+                             return data?.id || data?.userId || data?.user_id;
+                         } catch (e) {
+                             console.log("Browser fetch JSON parse error. Raw text:", text);
+                             return null;
+                         }
                      } catch (e: any) { 
                          console.log("Browser fetch error:", e.toString());
                          return null; 
