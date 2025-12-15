@@ -740,7 +740,7 @@ export default function AttendancePage() {
                     <path d="M6 20v-1a4 4 0 014-4h4a4 4 0 014 4v1" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Welcome Back</h2>
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">Currently facing issues is from cybervidya end will be fixed soon..</h2>
                 <p className="text-slate-500 dark:text-slate-400 text-sm mt-2">
                   Connect to CyberVidya to access your dashboard.
                 </p>
