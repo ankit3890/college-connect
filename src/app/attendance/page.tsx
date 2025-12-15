@@ -731,7 +731,7 @@ export default function AttendancePage() {
         {/* Login card */}
         {!hasLoggedIn && (
           <div className="flex flex-col items-center justify-center min-h-[60vh]">
-            <section className="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+            <section className="w-full max-w-md bg-white dark:bg-slate-800 rounded-2xl shadow-xl border-2 border-black dark:border-slate-600 overflow-hidden">
               {/* Header */}
               <div className="px-6 py-8 text-center border-b border-slate-50 dark:border-slate-700">
                 <div className="w-16 h-16 bg-slate-50 dark:bg-slate-700 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -754,7 +754,7 @@ export default function AttendancePage() {
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    Note: Manual Login does not work on mobile. Use PC/Laptop.
+                    Note: Work on Chrome & Brave (Not on Edge). Mobile not supported.
                  </div>
                 
                 {/* MODE TOGGLE - Moved to Top */}
@@ -990,7 +990,7 @@ export default function AttendancePage() {
                             Authorization Token
                          </label>
                          <input
-                            className="w-full rounded-lg border border-slate-200 dark:border-slate-600 px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder:text-slate-400"
+                            className="w-full rounded-lg border-2 border-slate-300 dark:border-slate-600 px-4 py-3 text-base bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder:text-slate-400 font-medium"
                             value={manualToken}
                             onChange={(e) => setManualToken(e.target.value)}
                             placeholder="Basic ... or GlobalEducation ..."
@@ -1004,7 +1004,7 @@ export default function AttendancePage() {
                             UID
                          </label>
                          <input
-                            className="w-full rounded-lg border border-slate-200 dark:border-slate-600 px-3 py-2 text-sm bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder:text-slate-400 font-mono"
+                            className="w-full rounded-lg border-2 border-slate-300 dark:border-slate-600 px-4 py-3 text-base bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 outline-none transition-all placeholder:text-slate-400 font-mono font-medium"
                             value={manualUid}
                             onChange={(e) => setManualUid(e.target.value)}
                             type="number"
@@ -1059,7 +1059,7 @@ export default function AttendancePage() {
                        <button
                           type="submit"
                           disabled={loading}
-                          className="w-full rounded-lg bg-indigo-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-indigo-600/20 hover:bg-indigo-700 active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                          className="w-full rounded-xl bg-indigo-600 px-6 py-4 text-lg font-bold text-white shadow-xl shadow-indigo-600/30 hover:bg-indigo-700 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2 border-2 border-transparent hover:border-black/10"
                         >
                           {loading ? "Verifying..." : "Login with Token"}
                         </button>
